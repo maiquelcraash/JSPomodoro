@@ -1,0 +1,24 @@
+@font-face {
+  font-family: Digital;
+  src: url('digital-7.ttf');
+}
+#pomodoro {
+  position: relative;
+  width: 240px;
+  height: 300px;
+}
+#pomodoro .countdown {
+  position: absolute;
+  width: auto;
+  height: 50px;
+  top: 95px;
+  /* (240/2) - (50/2) = 95px */
+  left: 80px;
+  /* (240/2) - (80/2) =  80px*/
+  font-family: Digital, sans-serif;
+  font-size: 28pt;
+  text-align: center;
+  line-height: 40pt;
+  color: darkred;
+  background-color: transparent;
+}
