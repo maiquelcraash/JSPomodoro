@@ -7,38 +7,55 @@
 
 	var JSPomodoro = function () {
 
+		const settings = {
+			totalTime: 15000,
+			inicialTime: 15000
+		};
+
 		const pomodoro_canvas = document.querySelector("#pomodoro .progress"),
 			ctx = pomodoro_canvas.getContext('2d'),						//contexto 2D
 			circ = Math.PI * 2,											//360º
 			quart = Math.PI / 2,										//90º
 			width = pomodoro_canvas.width,
-			height = pomodoro_canvas.height;
+			height = pomodoro_canvas.height,
+			radius = 70;
 
 		var countdown = document.querySelector("#pomodoro .countdown");
-		var imd = null;													//image of the canvas variable
-		imd = ctx.getImageData(0, 0, width, height);					//get an image of the canvas starting on 0,0 point and get the full canvas size
 
 		var core = {
-			time: 1500000,
-			timeleft: 10000,
+			time: settings.totalTime,
+			timeleft: settings.inicialTime,
 			running: false,
 
 			init: function () {
+				ctx.beginPath();
+				ctx.arc(width / 2, height / 2, radius + 5, 0, circ, false);
+				ctx.fillStyle = 'white';
+				ctx.strokeStyle = 'black';
+				ctx.fill();
+				ctx.stroke();
+				ctx.closePath();
+
+				ctx.beginPath();
+				ctx.arc(width / 2, height / 2, radius - 5, 0, circ, false);
+				ctx.fillStyle = '#F00';
+				ctx.fill();
+				ctx.closePath();
+
 				ctx.beginPath();
 				ctx.strokeStyle = '#99CC33';
 				ctx.lineCap = 'square';											//set the end of the path to square style
 				ctx.closePath();
 				ctx.fill();
 				ctx.lineWidth = 10;
-				core.render();
+				core.updateCanvas();
 				core.start();
 			},
 
-			render: function () {
+			updateCanvas: function () {
 				var current = (core.timeleft / core.time) || 0;
-				ctx.putImageData(imd, 0, 0);
 				ctx.beginPath();
-				ctx.arc(width / 2, height / 2, 70, -(quart), (circ - (circ * current) - 0.14) - quart, false);
+				ctx.arc(width / 2, height / 2, radius, -(quart), (circ - (circ * current)) - quart, false);
 				ctx.stroke();
 
 				var time = new Date(core.timeleft);
@@ -59,11 +76,11 @@
 					var run = setInterval(function () {
 						if (core.running && core.timeleft > 0) {
 							core.timeleft -= 1000;
-							core.render();
+							core.updateCanvas();
 							var rerun = run;
 						}
 						else {
-							core.render();
+							core.updateCanvas();
 							core.finnish();
 						}
 					}, 1000);
@@ -75,7 +92,7 @@
 
 			finnish: function () {
 				core.running = false;
-				core.timeleft = 1500000;
+				core.timeleft = settings.inicialTime;
 			}
 		};
 		core.init();
