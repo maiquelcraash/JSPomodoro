@@ -1,6 +1,11 @@
+/* Color Palette */
 @font-face {
   font-family: Digital;
   src: url('digital-7.ttf');
+}
+@font-face {
+  font-family: Play;
+  src: url('play.ttf');
 }
 #pomodoro {
   position: relative;
@@ -19,5 +24,22 @@
   font-size: 28pt;
   text-align: center;
   line-height: 40pt;
-  color: darkred;
+  color: white;
+}
+#pomodoro .cockpit {
+  width: 100%;
+  display: inline-block;
+  text-align: center;
+}
+#pomodoro .cockpit .buttom {
+  font-family: Play, sans-serif;
+  font-size: 36pt;
+  padding: 0 10px 0 10px;
+  color: #A71414;
+}
+#pomodoro .cockpit #play:before {
+  content: '\e800';
+}
+#pomodoro .cockpit #add:before {
+  content: '\e802';
 }

@@ -18,9 +18,33 @@
 			quart = Math.PI / 2,										//90º
 			width = pomodoro_canvas.width,
 			height = pomodoro_canvas.height,
-			radius = 70;
+			radius = 90;
 
-		var countdown = document.querySelector("#pomodoro .countdown");
+		var controller = {
+			countdown: document.querySelector("#pomodoro .countdown"),
+			play: document.getElementById("play"),
+			add: document.getElementById("add"),
+
+			playHandler: function () {
+				if (core.running) {
+					core.finnish();
+					document.styleSheets[0].addRule("#pomodoro .cockpit #play:before", "content:'\\e800'");
+				}
+				else {
+					core.start();
+					document.styleSheets[0].addRule("#pomodoro .cockpit #play:before", "content:'\\e801'");
+				}
+			},
+
+			addHandler: function () {
+
+			},
+
+			addListeners: function () {
+				this.play.onclick = this.playHandler;
+				this.add.onclick = this.addHandler;
+			}
+		};
 
 		var core = {
 			time: settings.totalTime,
@@ -28,6 +52,9 @@
 			running: false,
 
 			init: function () {
+				controller.addListeners();
+
+				/* Outer Circle */
 				ctx.beginPath();
 				ctx.arc(width / 2, height / 2, radius + 5, 0, circ, false);
 				ctx.fillStyle = 'white';
@@ -36,20 +63,19 @@
 				ctx.stroke();
 				ctx.closePath();
 
+				/* Inner Circle */
 				ctx.beginPath();
 				ctx.arc(width / 2, height / 2, radius - 5, 0, circ, false);
-				ctx.fillStyle = '#F00';
+				ctx.fillStyle = '#CC4A49';
 				ctx.fill();
 				ctx.closePath();
 
+				/* Progress stroke params */
 				ctx.beginPath();
-				ctx.strokeStyle = '#99CC33';
+				ctx.strokeStyle = '#A71414';
 				ctx.lineCap = 'square';											//set the end of the path to square style
-				ctx.closePath();
-				ctx.fill();
 				ctx.lineWidth = 10;
 				core.updateCanvas();
-				core.start();
 			},
 
 			updateCanvas: function () {
@@ -64,7 +90,7 @@
 				seconds = "0" + Math.floor(seconds);
 				minutes = "0" + minutes;
 
-				countdown.textContent =
+				controller.countdown.textContent =
 					minutes.charAt(minutes.length - 2) + minutes.charAt(minutes.length - 1)
 					+ ":"
 					+ seconds.charAt(seconds.length - 2) + seconds.charAt(seconds.length - 1);
@@ -73,21 +99,20 @@
 			start: function () {
 				if (!core.running) {
 					core.running = true;
-					var run = setInterval(function () {
-						if (core.running && core.timeleft > 0) {
-							core.timeleft -= 1000;
-							core.updateCanvas();
-							var rerun = run;
-						}
-						else {
-							core.updateCanvas();
-							core.finnish();
-						}
-					}, 1000);
+					var run = function () {
+						setTimeout(function () {
+							if (core.running && core.timeleft > 0) {
+								core.timeleft -= 1000;
+								core.updateCanvas();
+								run();
+							}
+							else {
+								core.updateCanvas();
+								core.finnish();
+							}
+						}, 1000);
+					};
 				}
-			},
-
-			stop: function () {
 			},
 
 			finnish: function () {

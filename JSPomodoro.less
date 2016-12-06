@@ -1,7 +1,20 @@
+/* Color Palette */
+@red-main: #CC4A49;
+@red-secundary: #A71414;
+
 @font-face {
   font-family: Digital;
   src: url('digital-7.ttf');
 }
+
+@font-face {
+  font-family: Play;
+  src: url('play.ttf');
+}
+
+//.icon-play-outline:before { content: '\e800'; } /* '' */
+//.icon-pause-outline:before { content: '\e801'; } /* '' */
+//.icon-plus-outline:before { content: '\e802'; } /* '' */
 
 #pomodoro {
   position: relative;
@@ -18,6 +31,27 @@
     font-size: 28pt;
     text-align: center;
     line-height: 40pt;
-    color: darkred;
+    color: white;
+  }
+
+  .cockpit {
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+
+    .buttom {
+      font-family: Play, sans-serif;
+      font-size: 36pt;
+      padding: 0 10px 0 10px;
+      color: @red-secundary;
+    }
+
+    #play:before {
+      content: '\e800';
+    }
+
+    #add:before {
+      content: '\e802';
+    }
   }
 }
