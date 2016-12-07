@@ -6,16 +6,20 @@
     <link href="JSPomodoro.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-    <div id="pomodoro">
-        <canvas class="progress" width="240" height="240"></canvas>
-        <div class="countdown">
-            25:00
+    <div id="container">
+        <div id="pomodoro">
+            <canvas class="progress" width="240" height="240"></canvas>
+            <div class="countdown">
+                25:00
+            </div>
+            <div class="cockpit">
+                <span class="buttom" id="play"></span>
+                <span class="buttom" id="add"></span>
+            </div>
         </div>
-        <div class="cockpit">
-            <span class="buttom" id="play"></span>
-            <span class="buttom" id="add"></span>
-        </div>
+        <div id="title">Ludi's Pomodoro</div>
     </div>
+    <div id="footer">Created by <a href="https://codepen.io/maiquelcraash/" target="_blank">Maiquel</a></div>
 </body>
 </html>
 <script src="JSPomodoro.js"></script>

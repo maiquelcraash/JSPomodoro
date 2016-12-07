@@ -7,12 +7,22 @@
   font-family: Play;
   src: url('play.ttf');
 }
-#pomodoro {
+body {
+  background-color: #CC4A49;
+  height: 100%;
+}
+#container {
+  display: table;
+  width: 100%;
+}
+#container #pomodoro {
   position: relative;
   width: 240px;
   height: 300px;
+  margin-left: auto;
+  margin-right: auto;
 }
-#pomodoro .countdown {
+#container #pomodoro .countdown {
   position: absolute;
   width: auto;
   height: 50px;
@@ -26,20 +36,39 @@
   line-height: 40pt;
   color: white;
 }
-#pomodoro .cockpit {
+#container #pomodoro .cockpit {
   width: 100%;
   display: inline-block;
   text-align: center;
 }
-#pomodoro .cockpit .buttom {
+#container #pomodoro .cockpit .buttom {
   font-family: Play, sans-serif;
   font-size: 36pt;
   padding: 0 10px 0 10px;
-  color: #A71414;
+  color: white;
 }
-#pomodoro .cockpit #play:before {
+#container #pomodoro .cockpit #play:before {
   content: '\e800';
 }
-#pomodoro .cockpit #add:before {
+#container #pomodoro .cockpit #add:before {
   content: '\e802';
+}
+#container #title {
+  margin-top: 20px;
+  font-family: Digital, sans-serif;
+  font-size: 24pt;
+  color: white;
+  text-align: center;
+}
+#footer {
+  font-family: Helvetica, sans-serif;
+  font-size: 11pt;
+  color: white;
+  text-align: center;
+  width: 100%;
+}
+#footer a {
+  color: inherit;
+  text-decoration: none;
+  font-weight: bold;
 }

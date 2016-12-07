@@ -8,8 +8,8 @@
 	var JSPomodoro = function () {
 
 		const settings = {
-			totalTime: 15000,
-			inicialTime: 15000
+			totalTime: 1500000,
+			inicialTime: 1500000
 		};
 
 		const pomodoro_canvas = document.querySelector("#pomodoro .progress"),
@@ -28,16 +28,24 @@
 			playHandler: function () {
 				if (core.running) {
 					core.finnish();
-					document.styleSheets[0].addRule("#pomodoro .cockpit #play:before", "content:'\\e800'");
 				}
 				else {
 					core.start();
-					document.styleSheets[0].addRule("#pomodoro .cockpit #play:before", "content:'\\e801'");
+					document.styleSheets[0].addRule("#container #pomodoro .cockpit #play:before", "content:'\\e801'");
 				}
 			},
 
 			addHandler: function () {
-
+				if (core.running) {
+					settings.inicialTime += 5 * 60 * 1000;
+					core.timeleft += 5 * 60 * 1000;
+					core.init();
+				}
+				else {
+					settings.inicialTime += 5 * 60 * 1000;
+					core.timeleft += 5 * 60 * 1000;
+					core.init();
+				}
 			},
 
 			addListeners: function () {
@@ -47,18 +55,19 @@
 		};
 
 		var core = {
-			time: settings.totalTime,
 			timeleft: settings.inicialTime,
 			running: false,
 
 			init: function () {
 				controller.addListeners();
+				ctx.clearRect(0, 0, width, height);
 
 				/* Outer Circle */
 				ctx.beginPath();
 				ctx.arc(width / 2, height / 2, radius + 5, 0, circ, false);
 				ctx.fillStyle = 'white';
-				ctx.strokeStyle = 'black';
+				ctx.strokeStyle = '#A71414';
+				ctx.lineWidth = 1;
 				ctx.fill();
 				ctx.stroke();
 				ctx.closePath();
@@ -79,7 +88,7 @@
 			},
 
 			updateCanvas: function () {
-				var current = (core.timeleft / core.time) || 0;
+				var current = (core.timeleft / settings.inicialTime) || 0;
 				ctx.beginPath();
 				ctx.arc(width / 2, height / 2, radius, -(quart), (circ - (circ * current)) - quart, false);
 				ctx.stroke();
@@ -106,18 +115,32 @@
 								core.updateCanvas();
 								run();
 							}
-							else {
+							else if(core.running && core.timeleft <= 0){
+								core.timeleft = 0;
+								clearTimeout(run);
 								core.updateCanvas();
 								core.finnish();
 							}
 						}, 1000);
 					};
+					run();
 				}
 			},
 
 			finnish: function () {
+				if (core.timeleft <= 0) {
+					core.alarm();
+				}
+				document.styleSheets[0].addRule("#container #pomodoro .cockpit #play:before", "content:'\\e800'");
 				core.running = false;
 				core.timeleft = settings.inicialTime;
+				core.init();
+			},
+
+			alarm: function () {
+				var beep = new Audio();
+				beep.src = 'https://docs.google.com/uc?' + 'authuser=0&id=0B6qaLpzeH1VoTHZCNW5tUEQxbG8&export=download';
+				beep.play();
 			}
 		};
 		core.init();
